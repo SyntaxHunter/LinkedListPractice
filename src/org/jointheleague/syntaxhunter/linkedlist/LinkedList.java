@@ -67,11 +67,11 @@ public class LinkedList<T> {
 		}
 	}
 	
-	public void remove(T value) {
+	public boolean remove(T value) {
+		boolean removed = false;
 		if(first != null) {
-			boolean removed = false;
 			Node<T> current = first;
-			while(!removed && current.getNext() != null) {
+			while(!removed) {
 				if(current.getValue() == value) {
 					Node<T> previous = current.getPrevious();
 					Node<T> next = current.getNext();
@@ -81,18 +81,25 @@ public class LinkedList<T> {
 						last = null;
 					} else if(previous == null) {
 						first = next;
+						next.setPrevious(null);
 					} else if(next == null) {
 						last = previous;
+						previous.setNext(null);
 					} else {
 						previous.setNext(next);
 						next.setPrevious(previous);
 					}
 					removed = true;
 				} else {
-					current = current.getNext();
+					if(current.getNext() != null) {
+						current = current.getNext();
+					} else {
+						continue;
+					}
 				}
 			}
 		}
+		return removed;
 	}
 
 }

@@ -1,8 +1,7 @@
 package org.jointheleague.syntaxhunter.linkedlist;
-import static org.junit.jupiter.api.Assertions.*;
 
-import org.jointheleague.syntaxhunter.linkedlist.LinkedList;
-import org.jointheleague.syntaxhunter.linkedlist.Node;
+import static org.junit.Assert.*;
+
 import org.junit.jupiter.api.Test;
 
 class TestLinkedList {
@@ -70,13 +69,13 @@ class TestLinkedList {
 	void testRemove() {
 		LinkedList<Integer> list = LinkedList.init();
 		// Empty List
-		list.remove(0);
+		assertFalse(list.remove(0));
 		assertNull(list.getFirst());
 		assertNull(list.getLast());
 		
 		// First and Last in List
 		list.append(0);
-		list.remove(0);
+		assertTrue(list.remove(0));
 		assertNull(list.getFirst());
 		assertNull(list.getLast());
 		
@@ -86,7 +85,7 @@ class TestLinkedList {
 		list.append(1);
 		
 		// Middle of List: 0 1 2 1, Remove 1
-		list.remove(1);
+		assertTrue(list.remove(1));
 		assertEquals(Integer.valueOf(0), list.getFirst().getValue());
 		assertEquals(Integer.valueOf(2), list.getFirst().getNext().getValue());
 		assertEquals(Integer.valueOf(1), list.getLast().getValue());
@@ -94,7 +93,7 @@ class TestLinkedList {
 		list.append(0);
 		
 		// First in List: 0 2 1 0, Remove 0
-		list.remove(0);
+		assertTrue(list.remove(0));
 		assertEquals(Integer.valueOf(2), list.getFirst().getValue());
 		assertEquals(Integer.valueOf(1), list.getFirst().getNext().getValue());
 		assertEquals(Integer.valueOf(0), list.getLast().getValue());
@@ -102,9 +101,15 @@ class TestLinkedList {
 		list.append(-1);
 		
 		// Last in List: 2 1 0 -1, Remove -1
+		assertTrue(list.remove(-1));
 		assertEquals(Integer.valueOf(2), list.getFirst().getValue());
 		assertEquals(Integer.valueOf(1), list.getFirst().getNext().getValue());
 		assertEquals(Integer.valueOf(0), list.getLast().getValue());
-		
+				
+		// Not in list: 2 1 0, Remove -1
+		assertFalse(list.remove(-1));
+		assertEquals(Integer.valueOf(2), list.getFirst().getValue());
+		assertEquals(Integer.valueOf(1), list.getFirst().getNext().getValue());
+		assertEquals(Integer.valueOf(0), list.getLast().getValue());
 	}
 }
