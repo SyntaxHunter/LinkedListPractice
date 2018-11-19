@@ -1,7 +1,9 @@
-package org.jointheleague.syntaxhunter.linkedlist;
+package org.jointheleague.syntaxhunter.cci.chapter2;
 
 import static org.junit.Assert.*;
 
+import org.jointheleague.syntaxhunter.cci.chapter2.LinkedList;
+import org.jointheleague.syntaxhunter.cci.chapter2.Node;
 import org.junit.jupiter.api.Test;
 
 class TestLinkedList {

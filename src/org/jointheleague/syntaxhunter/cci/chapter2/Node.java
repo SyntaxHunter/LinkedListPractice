@@ -1,4 +1,4 @@
-package org.jointheleague.syntaxhunter.linkedlist;
+package org.jointheleague.syntaxhunter.cci.chapter2;
 
 public class Node<T> {
 	
