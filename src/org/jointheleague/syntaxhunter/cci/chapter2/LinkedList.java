@@ -71,7 +71,7 @@ public class LinkedList<T> {
 		boolean removed = false;
 		if(first != null) {
 			Node<T> current = first;
-			while(!removed) {
+			while(!removed && current != null) {
 				if(current.getValue() == value) {
 					Node<T> previous = current.getPrevious();
 					Node<T> next = current.getNext();
@@ -91,11 +91,7 @@ public class LinkedList<T> {
 					}
 					removed = true;
 				} else {
-					if(current.getNext() != null) {
-						current = current.getNext();
-					} else {
-						continue;
-					}
+					current = current.getNext();
 				}
 			}
 		}
