@@ -20,10 +20,10 @@ class TestBidirectionalSearch {
 	}
 
 	@Test
-	void testFindPathDFS() {
+	void testFindPathBFS() {
 		BidirectionalSearch search = new BidirectionalSearch(adjacencyMatrix);
-		assertTrue(search.findPathDFS(0, 4));
-		assertFalse(search.findPathDFS(3,1));
+		assertTrue(search.findPathBFS(0, 4));
+		assertFalse(search.findPathBFS(3,1));
 	}
 	
 }

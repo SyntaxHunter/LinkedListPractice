@@ -7,6 +7,8 @@ public class BidirectionalSearch {
 	final int[][] adjacencyMatrix;
 	final int numNodes;
 	Queue<Integer> search;
+	boolean[] reachedFromSource;
+	boolean[] reachedFromTarget;
 	
 	public BidirectionalSearch(int[][] adjacencyMatrix) {
 		this.adjacencyMatrix = adjacencyMatrix;
@@ -19,33 +21,51 @@ public class BidirectionalSearch {
 			predecessors[i] = adjacencyMatrix[i][num];
 		}
 		return predecessors;
-		 
 	}
 	
 	public int[] getSuccessors(int num) {
 		return adjacencyMatrix[num];
 	}
 	
-	public boolean findPathDFS(int s, int t) {
-		boolean[] beenTo = new boolean[adjacencyMatrix.length];
+	public boolean findPathBFS(int s, int t) { 
 		search = new Queue<>();
-		return findPathDFS(s, t, beenTo);
+		reachedFromSource = new boolean[numNodes];
+		reachedFromTarget = new boolean[numNodes];
+		search.push(s);
+		reachedFromSource[s] = true;
+		search.push(t);
+		reachedFromTarget[t] = true;
+		return findPathBFS();
 	}
 	
-	private boolean findPathDFS(int s, int t, boolean[] beenTo) {
-		int[] successors = getSuccessors(s);
-		for(int i = 0; i < adjacencyMatrix.length; i++) {
-			if (successors[i] == t) return true;
-			else if (successors[i] == 1 && !beenTo[i]) {
-				search.push(i);
-				beenTo[i] = true;
+	private boolean findPathBFS() {
+		if(search.isEmpty()) return false;
+		int current = search.pop();
+		int[] connectedTo;
+		if(reachedFromSource[current]) {
+			connectedTo = getSuccessors(current);
+		} else {
+			connectedTo = getPredecessors(current);
+		}
+		for(int i = 0; i < numNodes; i++) {
+			if(connectedTo[i] == 0) continue;
+			if(reachedFromSource[current]) {
+				if(reachedFromTarget[i]) {
+					return true;
+				} else if(!reachedFromSource[i]) {
+					search.push(i);
+					reachedFromSource[i] = true;
+				}
+			} else if(reachedFromTarget[current]) {
+				if(reachedFromSource[i]) {
+					return true;
+				} else if (!reachedFromTarget[i]) {
+					search.push(i);
+					reachedFromTarget[i] = true;
+				}
 			}
 		}
-		while (!search.isEmpty()) {
-			boolean found = findPathDFS(s, t, beenTo);
-			if (found) return found;
-		}
-		return false;
+		return findPathBFS();
 	}
 	
 }
